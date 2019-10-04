@@ -5,24 +5,24 @@
 	<script type="text/javascript">
 		var ajax = new  XMLHttpRequest();
 		
-		function deletarProduto(){
+		function deletarProduto(produt){
 			debugger;
-
-			teste = JSON.stringify({ "id": 12,"nome": "Iphone 5","quantidade": 42.00,"valor": 2500.00});
 
 			ajax.open("DELETE", "http://localhost:8080/api/produto", true);
 			ajax.setRequestHeader('Content-Type', 'application/json;');
-			// ajax.contentType = "json";
 			
 			ajax.onreadystatechange = function() {
 				if (ajax.readyState == 4 && ajax.status == 200) {
-					// var data = JSON.parse(ajax.responseText);
+				   alert("deletado")
 
+				}else{
+					alert("erro")
 				}
 			}
 
 			
-			ajax.send(teste);
+			ajax.send(produt);
+			window.location.reload();
 		}
 
 		function atualizarProduto(){
@@ -55,8 +55,8 @@
 			  		for(value of Object.keys(produto)){
 			  			htmlData += "<td>"+ produto[value]+"</td>";
 			  		}
-			  		htmlData +="<td><a href='#' onclick='deletarProduto();'>Apagar</a></td>"
-			  		htmlData +="<td><a href='#' onclick='atualizarProduto();'>Alterar</a></td>"
+			  		htmlData +="<td><a href='#' onclick='deletarProduto("+JSON.stringify(produto)+");'>Apagar</a></td>"
+			  		htmlData +="<td><a href='#' onclick='atualizarProduto("+JSON.stringify(produto)+");'>Alterar</a></td>"
 			  		htmlData += "</tr>"
 			  		
 			  		// produtos.push(produtoResponde);
