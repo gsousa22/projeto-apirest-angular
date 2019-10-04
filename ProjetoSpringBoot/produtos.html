@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Lista de produtos</title>
+	<script type="text/javascript">
+		var ajax = new  XMLHttpRequest();
+		
+		function deletarProduto(){
+			debugger;
+
+			teste = JSON.stringify({ "id": 12,"nome": "Iphone 5","quantidade": 42.00,"valor": 2500.00});
+
+			ajax.open("DELETE", "http://localhost:8080/api/produto", true);
+			ajax.setRequestHeader('Content-Type', 'application/json;');
+			// ajax.contentType = "json";
+			
+			ajax.onreadystatechange = function() {
+				if (ajax.readyState == 4 && ajax.status == 200) {
+					// var data = JSON.parse(ajax.responseText);
+
+				}
+			}
+
+			
+			ajax.send(teste);
+		}
+
+		function atualizarProduto(){
+			alert("dd")
+		}
+		window.onload = function(){
+
+
+
+			// Exemplo de requisição GET
+			debugger;
+			
+
+			// Seta tipo de requisição e URL com os parâmetros
+			ajax.open("GET", "http://localhost:8080/api/produtos", true);
+
+
+			// Cria um evento para receber o retorno.
+			ajax.onreadystatechange = function() {
+			  // Caso o state seja 4 e o http.status for 200, é porque a requisiçõe deu certo.
+			  if (ajax.readyState == 4 && ajax.status == 200) {
+			  	var data = JSON.parse(ajax.responseText);
+			  	var dataHeader =  Object.keys(data[0]);
+			  	debugger;
+			  	var produtos = [];
+			  	var htmlData = "";
+			  	for(produto of data){
+			  		let produtoResponde =[];
+			  		htmlData += "<tr>"
+			  		for(value of Object.keys(produto)){
+			  			htmlData += "<td>"+ produto[value]+"</td>";
+			  		}
+			  		htmlData +="<td><a href='#' onclick='deletarProduto();'>Apagar</a></td>"
+			  		htmlData +="<td><a href='#' onclick='atualizarProduto();'>Alterar</a></td>"
+			  		htmlData += "</tr>"
+			  		
+			  		// produtos.push(produtoResponde);
+			  	}
+			  	// console.log(produtos);
+			  	var tbodyProdutos = document.getElementById("produtos");
+			  	tbodyProdutos.innerHTML = htmlData;
+
+			  }
+			}
+				// Envia a requisição
+				ajax.send();
+
+			}
+		</script>
+	</head>
+	<body>
+		<div style="width: 700px; height: auto; margin: auto; border: 1px solid black; text-align: center;">
+			<table border="1" style="margin: auto;">
+				<thead>
+					<tr>
+						<th>id</th>
+						<th>Nome</th>
+						<th>Quantidade</th>
+						<th>Valor</th>
+						<th colspan="2">Ação</th>
+					</tr>
+				</thead>
+				<tbody id="produtos">
+
+				</tbody>
+			</table>
+		</div>
+	</body>
+	</html>
